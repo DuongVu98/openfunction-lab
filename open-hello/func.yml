@@ -13,14 +13,14 @@ spec:
       FUNC_NAME: "my-hello"
       FUNC_TYPE: "http"
     srcRepo:
-      url: "https://github.com/OpenFunction/samples.git"
-      sourceSubPath: "functions/knative/hello-world-node/esm"
+      url: "https://github.com/DuongVu98/openfunction-lab.git"
+      sourceSubPath: "open-hello"
       revision: "main"
   serving:
-    runtime: "knative" # default to knative
+    runtime: "knative"
     template:
       containers:
-        - name: function # DO NOT change this
+        - name: function
           imagePullPolicy: IfNotPresent
     triggers:
       http:
