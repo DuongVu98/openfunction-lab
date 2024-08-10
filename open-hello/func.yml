@@ -1,0 +1,27 @@
+apiVersion: core.openfunction.io/v1beta2
+kind: Function
+metadata:
+  name: my-hello
+spec:
+  version: "v1.0.0"
+  image: "tony16019/my-hello:latest"
+  imageCredentials:
+    name: push-secret
+  build:
+    builder: "openfunction/builder-node:latest"
+    env:
+      FUNC_NAME: "my-hello"
+      FUNC_TYPE: "http"
+    srcRepo:
+      url: "https://github.com/OpenFunction/samples.git"
+      sourceSubPath: "functions/knative/hello-world-node/esm"
+      revision: "main"
+  serving:
+    runtime: "knative" # default to knative
+    template:
+      containers:
+        - name: function # DO NOT change this
+          imagePullPolicy: IfNotPresent
+    triggers:
+      http:
+        port: 8080
