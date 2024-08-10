@@ -5,8 +5,8 @@ metadata:
 spec:
   version: "v1.0.0"
   image: "tony16019/my-hello:latest"
-  imageCredentials:
-    name: push-secret
+  # imageCredentials:
+  #   name: push-secret
   build:
     builder: "openfunction/builder-node:latest"
     env:
@@ -17,7 +17,6 @@ spec:
       sourceSubPath: "open-hello"
       revision: "main"
   serving:
-    runtime: "knative"
     template:
       containers:
         - name: function
