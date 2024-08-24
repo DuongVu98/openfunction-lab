@@ -1,0 +1,12 @@
+apiVersion: skaffold/v3
+kind: Config
+metadata:
+  name: open-hello-client
+build:
+  artifacts:
+    - image: open-hello-client
+      buildpacks:
+        builder: paketobuildpacks/builder-jammy-base:latest
+manifests:
+  rawYaml:
+    - deployment.yml

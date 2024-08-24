@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: open-hello-client-deployment
+  labels:
+    app: open-hello-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: open-hello-client
+  template:
+    metadata:
+      labels:
+        app: open-hello-client
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: open-hello-client
+          image: open-hello-client
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: REMOTE_SERVER_URL
+              value: "http://k-spring-app.default.svc.cluster.local"

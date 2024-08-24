@@ -5,8 +5,8 @@ metadata:
 spec:
   version: "v1.0.0"
   image: "tony16019/my-hello:latest"
-  # imageCredentials:
-  #   name: push-secret
+  imageCredentials:
+    name: push-secret
   build:
     builder: "openfunction/builder-node:latest"
     env:
@@ -23,4 +23,8 @@ spec:
           imagePullPolicy: IfNotPresent
     triggers:
       http:
-        port: 8080
+        # port: 8080
+        route:
+          gatewayRef:
+            name: contour
+            namespace: projectcontour

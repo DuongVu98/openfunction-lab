@@ -1,1 +1,2 @@
-export * from "./hello.js";
+import func from "./hello.js";
+export default func;
