@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "start": "functions-framework --target=helloESM"
+    "start": "functions-framework --target=func"
   },
   "main": "index.js",
   "dependencies": {
