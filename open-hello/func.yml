@@ -23,8 +23,13 @@ spec:
           imagePullPolicy: IfNotPresent
     triggers:
       http:
-        # port: 8080
+        port: 8080
         route:
-          gatewayRef:
-            name: contour
-            namespace: projectcontour
+          rules:
+            - matches:
+                - path:
+                    type: PathPrefix
+                    value: "/hello"
+        #   gatewayRef:
+        #     name: openfunction
+        #     namespace: openfunction
