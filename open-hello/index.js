@@ -1,2 +1,2 @@
-const func = require('./hello.js');
-module.exports = func;
+import { func } from "./hello.js";
+export default func;
