@@ -1,2 +1,8 @@
-import { helloESM } from "./hello.js";
-export default helloESM;
+import JsonApiQueryParserClass from 'jsonapi-query-parser';
+
+const queryParser = new JsonApiQueryParserClass();
+
+export const parseQuerySpec = (req, res) => {
+    let requestData = queryParser.parseRequest(req.url);
+    res.send(requestData);
+};

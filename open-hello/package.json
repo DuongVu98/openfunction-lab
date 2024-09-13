@@ -1,10 +1,11 @@
 {
   "type": "module",
   "scripts": {
-    "start": "functions-framework --target=helloESM"
+    "start": "functions-framework --target=parseQuerySpec"
   },
   "main": "index.js",
   "dependencies": {
-    "@openfunction/functions-framework": "^0.4.1"
+    "@openfunction/functions-framework": "^0.4.1",
+    "jsonapi-query-parser": "^1.3.1"
   }
 }

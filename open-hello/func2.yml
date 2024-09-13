@@ -1,10 +1,10 @@
 apiVersion: core.openfunction.io/v1beta2
 kind: Function
 metadata:
-  name: my-hello
+  name: my-hello-2
 spec:
   version: "v1.0.0"
-  image: "tony16019/my-hello:latest"
+  image: "tony16019/my-hello2:latest"
   imageCredentials:
     name: push-secret
   build:
@@ -13,13 +13,16 @@ spec:
       FUNC_NAME: "helloESM"
       FUNC_TYPE: "http"
     srcRepo:
-      url: "https://github.com/DuongVu98/openfunction-lab.git"
-      sourceSubPath: "open-hello"
+      url: "https://github.com/OpenFunction/samples.git"
+      sourceSubPath: "functions/knative/hello-world-node/esm"
       revision: "main"
   serving:
+    scaleOptions:
+      minReplicas: 0
+      maxReplicas: 10
     template:
       containers:
-        - name: function
+        - name: function # DO NOT change this
           imagePullPolicy: IfNotPresent
     triggers:
       http:
@@ -29,7 +32,7 @@ spec:
             - matches:
                 - path:
                     type: PathPrefix
-                    value: "/hello"
+                    value: /hello
 
 ---
 apiVersion: dapr.io/v1alpha1

@@ -13,8 +13,12 @@ spec:
     metadata:
       labels:
         app: open-hello-client
+      annotations:
+        dapr.io/app-id: "open-hello-client"
+        dapr.io/enabled: "true"
+        dapr.io/app-port: "8080"
+        dapr.io/app-protocol: "http"
     spec:
-      automountServiceAccountToken: false
       containers:
         - name: open-hello-client
           image: open-hello-client
@@ -23,4 +27,4 @@ spec:
             - containerPort: 8080
           env:
             - name: REMOTE_SERVER_URL
-              value: "http://k-spring-app.default.svc.cluster.local"
+              value: "http://my-hello-2.default.svc.cluster.local"

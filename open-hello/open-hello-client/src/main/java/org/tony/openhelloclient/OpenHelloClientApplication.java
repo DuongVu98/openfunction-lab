@@ -7,13 +7,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.support.WebClientAdapter;
-import org.springframework.web.service.annotation.GetExchange;
-import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
+import org.tony.openhelloclient.service.HelloService;
 
 @Slf4j
 @EnableScheduling
@@ -40,18 +37,8 @@ public class OpenHelloClientApplication {
     return HttpServiceProxyFactory.builderFor(WebClientAdapter.create(webClient)).build();
   }
 
-  @Bean
+  @Bean("helloServiceHttp")
   public HelloService helloService(HttpServiceProxyFactory proxyFactory){
     return proxyFactory.createClient(HelloService.class);
   }
-
-  public interface HelloService {
-
-    @GetExchange("/")
-    String getHello();
-
-    @GetExchange("/person")
-    String getPerson();
-  }
-
 }

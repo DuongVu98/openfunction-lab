@@ -7,6 +7,13 @@ build:
     - image: open-hello-client
       buildpacks:
         builder: paketobuildpacks/builder-jammy-base:latest
+        dependencies:
+          paths:
+            - ./**/*
+          ignore:
+            - build/**
+            - .git/**
+            - .gradle/**
 manifests:
   rawYaml:
     - deployment.yml
