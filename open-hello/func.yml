@@ -1,16 +1,16 @@
 apiVersion: core.openfunction.io/v1beta2
 kind: Function
 metadata:
-  name: my-hello
+  name: my-query-parser
 spec:
   version: "v1.0.0"
-  image: "tony16019/my-hello:latest"
+  image: "tony16019/my-query-parser:latest"
   imageCredentials:
     name: push-secret
   build:
     builder: "openfunction/builder-node:latest"
     env:
-      FUNC_NAME: "helloESM"
+      FUNC_NAME: "parseQuerySpec"
       FUNC_TYPE: "http"
     srcRepo:
       url: "https://github.com/DuongVu98/openfunction-lab.git"
@@ -29,15 +29,15 @@ spec:
             - matches:
                 - path:
                     type: PathPrefix
-                    value: "/hello"
+                    value: "/parse"
 
 ---
 apiVersion: dapr.io/v1alpha1
 kind: HTTPEndpoint
 metadata:
-  name: "my-hello-2-entry"
+  name: "my-query-parser"
 spec:
-  baseUrl: http://my-hello-2.default.svc.cluster.local
+  baseUrl: http://my-query-parser.default.svc.cluster.local
   headers:
   - name: "Accept-Language"
     value: "en-US"

@@ -17,3 +17,8 @@ build:
 manifests:
   rawYaml:
     - deployment.yml
+portForward:
+  - resourceType: service
+    resourceName: open-hello-client
+    port: 8080
+    localPort: 8080

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.tony.openhelloclient.service.HelloService;
 
 @Slf4j
-@Component
+//@Component
 @RequiredArgsConstructor
 public class HelloJob {
 

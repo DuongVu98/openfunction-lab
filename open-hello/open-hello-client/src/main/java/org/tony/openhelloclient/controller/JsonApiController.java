@@ -1,13 +1,17 @@
 package org.tony.openhelloclient.controller;
 
 import io.dapr.client.DaprClientBuilder;
+import io.dapr.client.domain.HttpExtension;
 import io.dapr.client.domain.InvokeMethodRequest;
 import io.dapr.utils.TypeRef;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,23 +23,46 @@ import reactor.core.publisher.Mono;
 public class JsonApiController {
 
   @GetMapping("/products")
-  public Mono<Object> parse(HttpServletRequest request) {
+  public ResponseEntity<Request> parse(HttpServletRequest request) {
     request.getRequestURI();
-    var invokeRequest = new InvokeMethodRequest("parser", "parseQuery");
-    invokeRequest.setBody(request.getRequestURI());
+    log.info("Request URI: {}", request.getRequestURI());
+    log.info("Request URL: {}", request.getRequestURL());
+
+    String fullURL = request.getRequestURL().toString() + "?" + request.getQueryString();
+
+    var invokeRequest = new InvokeMethodRequest("my-query-parser", "parse");
+    invokeRequest.setBody("""
+        {"url": "%s"}
+        """.formatted(fullURL));
+    invokeRequest.setHttpExtension(HttpExtension.GET);
 
     try (var client = (new DaprClientBuilder()).build()) {
-      return client.invokeMethod(invokeRequest, new TypeRef<Object>() {
-          });
+      return client.invokeMethod(invokeRequest, new TypeRef<Request>() {
+          })
+          .log()
+          .map(ResponseEntity::ok)
+          .block();
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
   }
 
-  public record Request(String resourceType, String identifier, boolean relationship, String relationshipType, Query queryData) {}
+  public record Request(String resourceType, String identifier, boolean relationship,
+                        String relationshipType, Query queryData) {
+  }
 
-  public record Query(List<String> include, List<String> fields, List<String> sort, Object page, Filter filter) {}
+  public record Query(List<String> include, Map<String, List<String>> fields, List<String> sort, Object page,
+                      Filter filter) {
+  }
 
-  public record Filter(Map<String, String> like, Map<String, String> not, Map<String, String> lt, Map<String, String> lte, Map<String, String> gt, Map<String, String> gte) extends
-      HashMap<String, String> {}
+  @Data
+  @EqualsAndHashCode(callSuper = true)
+  public static class Filter extends HashMap<String, String> {
+    private Object like;
+    private Object not;
+    private Object lt;
+    private Object lte;
+    private Object gt;
+    private Object gte;
+  }
 }

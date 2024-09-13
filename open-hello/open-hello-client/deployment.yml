@@ -28,3 +28,18 @@ spec:
           env:
             - name: REMOTE_SERVER_URL
               value: "http://my-hello-2.default.svc.cluster.local"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: open-hello-client
+  labels:
+    app: open-hello-client
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: open-hello-client
+  type: ClusterIP
