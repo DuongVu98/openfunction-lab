@@ -3,6 +3,8 @@ import JsonApiQueryParserClass from 'jsonapi-query-parser';
 const queryParser = new JsonApiQueryParserClass();
 
 export const parseQuerySpec = (req, res) => {
-    let requestData = queryParser.parseRequest(req.data.url);
+    const data = req.body;
+    console.log(`Request URL: ${JSON.stringify(data)}`);
+    let requestData = queryParser.parseRequest(data.url);
     res.send(requestData);
 };
